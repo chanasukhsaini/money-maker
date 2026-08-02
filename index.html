@@ -112,7 +112,8 @@
             <div id="depTab" class="tab-content hidden">
                 <h4 style="text-align: center; color:#10b981;">Min Deposit: ₹110</h4>
                 <div style="text-align: center; margin: 10px 0;">
-                    <img src="https://via.placeholder.com/120?text=QR+Code" style="border-radius: 8px;">
+                    <!-- Live QR Code Container -->
+                    <img id="userQrDisplay" src="https://via.placeholder.com/150?text=Scan+To+Pay" style="border-radius: 8px; max-width: 160px; height: auto; border: 2px solid #f59e0b;">
                 </div>
                 <input type="number" id="depAmount" placeholder="Amount (Min ₹110)">
                 <input type="text" id="depUTR" placeholder="12-Digit UTR Number" maxlength="12" style="margin-top: 8px;">
@@ -134,6 +135,14 @@
 
             <div id="adminTab" class="tab-content hidden">
                 <h3 style="color:#f59e0b; text-align:center; margin-bottom:10px;">👑 Master Admin Panel</h3>
+
+                <!-- Direct QR Code Upload Section -->
+                <div class="admin-box">
+                    <h4 style="color:#10b981; margin-bottom:6px;">📸 Change Deposit Scanner / QR Code</h4>
+                    <p style="font-size:10px; color:#94a3b8; margin-bottom:8px;">Gallery/File Manager se photo select karke upload karein:</p>
+                    <input type="file" id="adminQrInput" accept="image/*" style="padding: 6px; font-size:11px;">
+                    <button onclick="uploadQrCode()" class="btn-main" style="margin-top:8px; width:100%; padding:8px;">Upload New QR Code</button>
+                </div>
 
                 <div class="admin-box">
                     <h4 style="color:#f59e0b; margin-bottom:6px;">⚙️ Prediction / Result Control</h4>
@@ -175,6 +184,7 @@
     const WITHDRAWALS_KEY = 'MONEY_MAKER_WITHDRAWALS_V4';
     const SESSION_KEY = 'MONEY_MAKER_SESSION_V4';
     const RESULT_MODE_KEY = 'MONEY_MAKER_RESULT_MODE';
+    const QR_CODE_KEY = 'MONEY_MAKER_QR_CODE';
 
     let isRegisterMode = false;
     let currentUser = null;
@@ -189,8 +199,33 @@
             currentUser = JSON.parse(session);
             showDashboard();
         }
+        loadQrCode();
         startGlobalGameLoop();
     };
+
+    function loadQrCode() {
+        const savedQr = localStorage.getItem(QR_CODE_KEY);
+        if(savedQr) {
+            document.getElementById('userQrDisplay').src = savedQr;
+        }
+    }
+
+    function uploadQrCode() {
+        const fileInput = document.getElementById('adminQrInput');
+        if(fileInput.files.length === 0) return alert('Kripya koi Scanner photo select karein!');
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const base64Image = e.target.result;
+            localStorage.setItem(QR_CODE_KEY, base64Image);
+            document.getElementById('userQrDisplay').src = base64Image;
+            alert('🎉 Naya Scanner/QR Code Upload Ho Gaya!');
+        };
+
+        reader.readAsDataURL(file);
+    }
 
     function toggleAuthMode() {
         isRegisterMode = !isRegisterMode;
@@ -240,6 +275,7 @@
         document.getElementById('userHeader').innerText = `ID: ${currentUser.id} (${currentUser.mobile})`;
         updateBalanceUI();
         renderUserHistories();
+        loadQrCode();
 
         if(currentUser.isAdmin) {
             document.getElementById('adminTabBtn').classList.remove('hidden');
