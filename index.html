@@ -35,7 +35,6 @@
         .btn-violet { background: #8b5cf6; }
         .btn-red { background: #ef4444; }
 
-        /* Admin Dashboard Components */
         .admin-box { background: #1e293b; border: 1px solid #f59e0b; padding: 12px; border-radius: 12px; margin-bottom: 12px; font-size: 12px; }
         .live-stat { display: flex; justify-content: space-between; padding: 4px 0; font-weight: bold; }
 
@@ -60,7 +59,6 @@
     <div class="app-header">🎰 Money Maker Club</div>
     
     <div class="app-body">
-        <!-- 1. AUTH SECTION -->
         <div id="authSection" class="auth-box">
             <h3 id="authTitle" style="text-align: center; color: #f59e0b;">Login Account</h3>
             <input type="tel" id="mobileInput" placeholder="Mobile Number (10 Digits)" maxlength="10">
@@ -71,7 +69,6 @@
             <p style="font-size: 11px; text-align: center; color: #94a3b8;">✨ Register karne par ₹20 Bonus milega!</p>
         </div>
 
-        <!-- 2. MAIN APP DASHBOARD -->
         <div id="dashboardSection" class="hidden">
             <div class="wallet-banner">
                 <div>
@@ -81,7 +78,6 @@
                 <button onclick="logout()" style="background:#3a4263; border:none; color:#fff; padding:6px 12px; border-radius:6px; font-size:11px;">Logout</button>
             </div>
 
-            <!-- TABS NAVIGATION -->
             <div class="nav-tabs">
                 <button class="tab-btn active" onclick="switchTab('gameTab', this)">🎮 Game</button>
                 <button class="tab-btn" onclick="switchTab('depTab', this)">📥 Deposit</button>
@@ -89,7 +85,6 @@
                 <button class="tab-btn hidden" id="adminTabBtn" onclick="switchTab('adminTab', this)" style="background:#ef4444; color:#fff;">👑 Admin Panel</button>
             </div>
 
-            <!-- TAB 1: GAME -->
             <div id="gameTab" class="tab-content">
                 <div class="game-card">
                     <div class="game-header">
@@ -114,7 +109,6 @@
                 <div class="history-list" id="gameHistory"></div>
             </div>
 
-            <!-- TAB 2: DEPOSIT -->
             <div id="depTab" class="tab-content hidden">
                 <h4 style="text-align: center; color:#10b981;">Min Deposit: ₹110</h4>
                 <div style="text-align: center; margin: 10px 0;">
@@ -128,7 +122,6 @@
                 <div class="history-list" id="myDepositHistory"></div>
             </div>
 
-            <!-- TAB 3: WITHDRAWAL -->
             <div id="withTab" class="tab-content hidden">
                 <h4 style="text-align: center; color:#ef4444;">Min Withdrawal: ₹170</h4>
                 <input type="number" id="withAmount" placeholder="Amount (Min ₹170)" style="margin-top: 10px;">
@@ -139,11 +132,9 @@
                 <div class="history-list" id="myWithdrawHistory"></div>
             </div>
 
-            <!-- TAB 4: MASTER ADMIN PANEL -->
             <div id="adminTab" class="tab-content hidden">
                 <h3 style="color:#f59e0b; text-align:center; margin-bottom:10px;">👑 Master Admin Panel</h3>
 
-                <!-- 1. RESULT CONTROL BOX -->
                 <div class="admin-box">
                     <h4 style="color:#f59e0b; margin-bottom:6px;">⚙️ Prediction / Result Control</h4>
                     <label style="font-size:11px; color:#94a3b8; display:block; margin-bottom:4px;">Set Next Winning Color:</label>
@@ -155,7 +146,6 @@
                     </select>
                 </div>
 
-                <!-- 2. LIVE BETS MONITOR -->
                 <div class="admin-box">
                     <h4 style="color:#10b981; margin-bottom:6px;">📊 Current Round Live Bets</h4>
                     <div class="live-stat" style="color:#10b981;"><span>Green Total:</span> <span id="adminGreenBet">₹0</span></div>
@@ -166,7 +156,6 @@
                     <div id="adminLiveBetsList" style="margin-top:4px; max-height:80px; overflow-y:auto; font-size:11px;"></div>
                 </div>
 
-                <!-- 3. DEPOSIT & WITHDRAWAL APPROVALS -->
                 <h4 style="color:#10b981; margin-top:10px;">📥 Pending Deposits</h4>
                 <div id="adminDepositsList"></div>
 
@@ -181,10 +170,10 @@
 </div>
 
 <script>
-    const USERS_KEY = 'MONEY_MAKER_USERS_V3';
-    const DEPOSITS_KEY = 'MONEY_MAKER_DEPOSITS_V3';
-    const WITHDRAWALS_KEY = 'MONEY_MAKER_WITHDRAWALS_V3';
-    const SESSION_KEY = 'MONEY_MAKER_SESSION_V3';
+    const USERS_KEY = 'MONEY_MAKER_USERS_V4';
+    const DEPOSITS_KEY = 'MONEY_MAKER_DEPOSITS_V4';
+    const WITHDRAWALS_KEY = 'MONEY_MAKER_WITHDRAWALS_V4';
+    const SESSION_KEY = 'MONEY_MAKER_SESSION_V4';
     const RESULT_MODE_KEY = 'MONEY_MAKER_RESULT_MODE';
 
     let isRegisterMode = false;
@@ -192,7 +181,7 @@
     let periodId = 2026001;
     let timeLeft = 30;
     let currentBet = null;
-    let currentRoundBets = []; // Stores all live bets of players
+    let currentRoundBets = [];
 
     window.onload = function() {
         const session = localStorage.getItem(SESSION_KEY);
@@ -211,8 +200,8 @@
     }
 
     function handleAuth() {
-        const mob = document.getElementById('mobileInput').value;
-        const pass = document.getElementById('passwordInput').value;
+        const mob = document.getElementById('mobileInput').value.trim();
+        const pass = document.getElementById('passwordInput').value.trim();
 
         if (mob.length !== 10 || isNaN(mob)) return alert('Sahi 10-digit number dalein!');
         if (!pass || pass.length < 4) return alert('Password minimum 4 characters ka ho!');
@@ -220,16 +209,17 @@
         let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
 
         if (isRegisterMode) {
-            if (users[mob]) return alert('Number pehle se registered hai!');
+            if (users[mob]) return alert('Number pehle se registered hai! Login Karein.');
             
+            const isFirstAccount = Object.keys(users).length === 0;
+
             users[mob] = {
                 id: 'MM' + Math.floor(1000 + Math.random() * 9000),
                 mobile: mob,
                 password: pass,
                 balance: 20,
-                isAdmin: (users['ADMIN_EXISTS'] ? false : true)
+                isAdmin: isFirstAccount
             };
-            users['ADMIN_EXISTS'] = true;
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
             alert('Account ban gaya! Bonus ₹20 credit ho gaya.');
         } else {
@@ -276,7 +266,6 @@
         document.getElementById('userBalance').innerText = '₹' + currentUser.balance.toFixed(2);
     }
 
-    // --- GAME ENGINE WITH RESULT CONTROL & LIVE BETS ---
     function startGlobalGameLoop() {
         setInterval(() => {
             timeLeft--;
@@ -289,7 +278,7 @@
                 periodId++;
                 document.getElementById('periodDisplay').innerText = periodId;
                 currentBet = null;
-                currentRoundBets = []; // Clear bets for next round
+                currentRoundBets = [];
                 updateAdminLiveBetsUI();
             }
         }, 1000);
@@ -324,10 +313,15 @@
             listHtml += `<div>👤 ${b.userId}: <b style="color:${b.color.toLowerCase()}">${b.color}</b> - ₹${b.amount}</div>`;
         });
 
-        document.getElementById('adminGreenBet').innerText = '₹' + green;
-        document.getElementById('adminVioletBet').innerText = '₹' + violet;
-        document.getElementById('adminRedBet').innerText = '₹' + red;
-        document.getElementById('adminLiveBetsList').innerHTML = listHtml || '<span style="color:#94a3b8;">No bets placed yet.</span>';
+        const gElem = document.getElementById('adminGreenBet');
+        const vElem = document.getElementById('adminVioletBet');
+        const rElem = document.getElementById('adminRedBet');
+        const lElem = document.getElementById('adminLiveBetsList');
+
+        if(gElem) gElem.innerText = '₹' + green;
+        if(vElem) vElem.innerText = '₹' + violet;
+        if(rElem) rElem.innerText = '₹' + red;
+        if(lElem) lElem.innerHTML = listHtml || '<span style="color:#94a3b8;">No bets placed yet.</span>';
     }
 
     function updateNextResultMode() {
@@ -343,9 +337,12 @@
             const colors = ['RED', 'GREEN', 'RED', 'GREEN', 'VIOLET'];
             winColor = colors[Math.floor(Math.random() * colors.length)];
         } else {
-            winColor = mode; // Forced result set by Admin
-            localStorage.setItem(RESULT_MODE_KEY, 'AUTO'); // Reset back to AUTO
-            if(currentUser.isAdmin) document.getElementById('adminNextResult').value = 'AUTO';
+            winColor = mode;
+            localStorage.setItem(RESULT_MODE_KEY, 'AUTO');
+            if(currentUser && currentUser.isAdmin) {
+                const sel = document.getElementById('adminNextResult');
+                if(sel) sel.value = 'AUTO';
+            }
         }
 
         if (currentBet) {
@@ -370,10 +367,9 @@
         historyElem.prepend(row);
     }
 
-    // --- DEPOSIT & WITHDRAWAL ENGINE ---
     function submitDeposit() {
         const amt = parseFloat(document.getElementById('depAmount').value);
-        const utr = document.getElementById('depUTR').value;
+        const utr = document.getElementById('depUTR').value.trim();
         if(amt < 110 || isNaN(amt)) return alert('Minimum deposit ₹110!');
         if(utr.length !== 12) return alert('12-Digit UTR number daalein!');
 
@@ -390,7 +386,7 @@
 
     function submitWithdrawal() {
         const amt = parseFloat(document.getElementById('withAmount').value);
-        const upi = document.getElementById('withUPI').value;
+        const upi = document.getElementById('withUPI').value.trim();
         if(amt < 170 || isNaN(amt)) return alert('Minimum withdrawal ₹170!');
         if(!upi) return alert('UPI ID daalein!');
         if(amt > currentUser.balance) return alert('Low Balance!');
@@ -423,7 +419,6 @@
         `).join('') || '<div style="color:#94a3b8; font-size:11px;">No withdrawals found</div>';
     }
 
-    // --- ADMIN CONTROLS ---
     function renderAdminPanel() {
         let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
         let pendingDeps = deposits.filter(d => d.status === 'PENDING');
@@ -454,7 +449,6 @@
         let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
         let userHtml = '';
         for(let mob in users) {
-            if(mob === 'ADMIN_EXISTS') continue;
             let u = users[mob];
             userHtml += `
                 <div class="req-card">
