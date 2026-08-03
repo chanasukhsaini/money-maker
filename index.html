@@ -3,567 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Maker Club - Master Control Panel</title>
+    <title>Money Maker Club</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #121420; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f172a; color: #fff; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 15px; }
         
-        .mobile-card { width: 100%; max-width: 420px; height: 92vh; max-height: 840px; background: #1b1e2e; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.8); border: 2px solid #2e344e; }
-        .app-header { background: #252a40; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; color: #f59e0b; border-bottom: 1px solid #2e344e; }
-        .app-body { padding: 15px; flex: 1; overflow-y: auto; }
-
-        .auth-box { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        input, select { width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #3a4263; background: #121420; color: #fff; font-size: 13px; outline: none; }
-        .btn-main { padding: 12px; background: linear-gradient(90deg, #f59e0b, #d97706); border: none; border-radius: 10px; color: #000; font-weight: bold; font-size: 14px; cursor: pointer; }
-        .auth-toggle { font-size: 12px; color: #f59e0b; text-align: center; cursor: pointer; margin-top: 5px; }
-
-        .wallet-banner { background: linear-gradient(135deg, #2e344e, #1b1e2e); padding: 15px; border-radius: 14px; margin-bottom: 12px; border: 1px solid #3a4263; display: flex; justify-content: space-between; align-items: center; }
-        .balance-num { font-size: 22px; font-weight: bold; color: #10b981; margin-top: 4px; }
+        /* Main Container - Expanded Size */
+        .app-container { width: 100%; max-width: 520px; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #334155; margin-top: 10px; }
         
-        .nav-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px 4px; background: #252a40; border: none; color: #94a3b8; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 11px; }
-        .tab-btn.active { background: #f59e0b; color: #000; }
-
-        .game-card { background: #252a40; border-radius: 16px; padding: 15px; }
-        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .period-id { font-size: 12px; color: #94a3b8; }
-        .timer-box { font-size: 20px; font-weight: bold; color: #ef4444; background: #121420; padding: 4px 12px; border-radius: 8px; }
-
-        .color-btns { display: flex; gap: 8px; margin: 15px 0; }
-        .btn-color { flex: 1; padding: 12px 0; border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 13px; cursor: pointer; }
-        .btn-green { background: #10b981; }
-        .btn-violet { background: #8b5cf6; }
-        .btn-red { background: #ef4444; }
-
-        .admin-box { background: #1e293b; border: 1px solid #f59e0b; padding: 12px; border-radius: 12px; margin-bottom: 12px; font-size: 12px; }
-        .live-stat { display: flex; justify-content: space-between; padding: 4px 0; font-weight: bold; }
-
-        .req-card { background: #1e293b; border: 1px solid #3a4263; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 12px; }
-        .action-btns { display: flex; gap: 8px; margin-top: 8px; }
-        .btn-approve { flex: 1; background: #10b981; border: none; color: #000; padding: 6px; font-weight: bold; border-radius: 6px; cursor: pointer; }
-        .btn-reject { flex: 1; background: #ef4444; border: none; color: #fff; padding: 6px; font-weight: bold; border-radius: 6px; cursor: pointer; }
-
-        .status-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
-        .status-PENDING { background: #f59e0b; color: #000; }
-        .status-APPROVED { background: #10b981; color: #000; }
-        .status-REJECTED { background: #ef4444; color: #fff; }
-
-        .history-list { margin-top: 10px; max-height: 120px; overflow-y: auto; font-size: 12px; }
-        .history-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #3a4263; }
+        /* Auth UI */
+        .auth-card { display: flex; flex-direction: column; gap: 15px; text-align: center; }
+        .auth-card h2 { color: #f59e0b; font-size: 28px; cursor: pointer; user-select: none; }
+        .input-group input { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 16px; outline: none; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn-primary { background: #f59e0b; color: #000; }
+        .btn-secondary { background: #334155; color: #fff; margin-top: 8px; }
+        
+        /* Dashboard UI */
+        .header-card { background: #0f172a; border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid #334155; }
+        .user-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .brand-title { font-size: 20px; font-weight: bold; color: #f59e0b; cursor: pointer; user-select: none; }
+        .balance { font-size: 32px; font-weight: bold; color: #10b981; margin-top: 5px; }
+        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        
+        /* Game Section */
+        .game-card { background: #0f172a; border-radius: 12px; padding: 20px; border: 1px solid #334155; text-align: center; }
+        .period-box { display: flex; justify-content: space-between; font-size: 16px; color: #94a3b8; margin-bottom: 15px; }
+        .timer-box { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 26px; font-weight: bold; margin: 15px 0; color: #ef4444; border: 1px solid #334155; }
+        .color-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+        .btn-green { background: #10b981; color: #fff; font-size: 18px; padding: 16px; }
+        .btn-violet { background: #8b5cf6; color: #fff; font-size: 18px; padding: 16px; }
+        .btn-red { background: #ef4444; color: #fff; font-size: 18px; padding: 16px; }
+        
+        /* Admin Modal */
+        .admin-modal { background: #0f172a; padding: 20px; border-radius: 12px; border: 2px solid #ef4444; margin-top: 20px; }
+        .admin-modal h3 { color: #ef4444; margin-bottom: 15px; text-align: center; }
+        .user-row { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
+        .user-row input { width: 80px; padding: 6px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
+        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="mobile-card">
-    <div class="app-header">🎰 Money Maker Club</div>
-    
-    <div class="app-body">
-        <div id="authSection" class="auth-box">
-            <h3 id="authTitle" style="text-align: center; color: #f59e0b;">Login Account</h3>
-            <input type="tel" id="mobileInput" placeholder="Mobile Number (10 Digits)" maxlength="10">
-            <input type="password" id="passwordInput" placeholder="Password">
-            
-            <button class="btn-main" id="authBtn" onclick="handleAuth()">Login</button>
-            <div class="auth-toggle" onclick="toggleAuthMode()" id="toggleText">Naya Account Banayein (Register)</div>
-            <p style="font-size: 11px; text-align: center; color: #94a3b8;">✨ Register karne par ₹20 Bonus milega!</p>
+<div class="app-container">
+    <!-- AUTH SCREEN -->
+    <div id="authView" class="auth-card">
+        <h2 onclick="triggerSecretAdmin()">🎰 Money Maker Club</h2>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 10px;">Login ya Naya Account Banayein</p>
+        <div class="input-group">
+            <input type="tel" id="userPhone" placeholder="Mobile Number (10 Digits)" maxlength="10">
+            <input type="password" id="userPass" placeholder="Password">
         </div>
+        <button class="btn btn-primary" onclick="handleLogin()">Login Account</button>
+        <button class="btn btn-secondary" onclick="handleRegister()">Naya Account Banayein (Register)</button>
+    </div>
 
-        <div id="dashboardSection" class="hidden">
-            <div class="wallet-banner">
+    <!-- GAME DASHBOARD -->
+    <div id="dashboardView" class="hidden">
+        <div class="header-card">
+            <div class="user-info">
+                <span class="brand-title" onclick="triggerSecretAdmin()">🎰 Money Maker</span>
                 <div>
-                    <span style="font-size: 11px; color: #94a3b8;" id="userHeader">User ID: -</span>
-                    <div class="balance-num" id="userBalance">₹0.00</div>
+                    <span id="displayUser" style="font-size: 14px; color: #94a3b8; margin-right: 8px;">ID: --</span>
+                    <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 12px;" onclick="handleLogout()">Logout</button>
                 </div>
-                <button onclick="logout()" style="background:#3a4263; border:none; color:#fff; padding:6px 12px; border-radius:6px; font-size:11px;">Logout</button>
             </div>
+            <div style="font-size: 12px; color: #94a3b8;">Total Balance</div>
+            <div class="balance" id="displayBalance">₹0.00</div>
+        </div>
 
-            <div class="nav-tabs">
-                <button class="tab-btn active" onclick="switchTab('gameTab', this)">🎮 Game</button>
-                <button class="tab-btn" onclick="switchTab('depTab', this)">📥 Deposit</button>
-                <button class="tab-btn" onclick="switchTab('withTab', this)">📤 Withdraw</button>
-                <button class="tab-btn hidden" id="adminTabBtn" onclick="switchTab('adminTab', this)" style="background:#ef4444; color:#fff;">👑 Admin Panel</button>
+        <div class="actions-grid">
+            <button class="btn btn-secondary" onclick="alert('Deposit ke liye Admin ko DM karein!')">Deposit</button>
+            <button class="btn btn-secondary" onclick="alert('Withdrawal ke liye Admin ko DM karein!')">Withdraw</button>
+        </div>
+
+        <div class="game-card">
+            <div class="period-box">
+                <span>Period ID: <strong id="periodId" style="color: #fff;">2026001</strong></span>
+                <span>Status: <strong style="color: #10b981;">Active</strong></span>
             </div>
-
-            <div id="gameTab" class="tab-content">
-                <div class="game-card">
-                    <div class="game-header">
-                        <div>
-                            <span class="period-id">Period ID</span>
-                            <div style="font-weight: bold; font-size: 14px;" id="periodDisplay">2026001</div>
-                        </div>
-                        <div class="timer-box" id="timerDisplay">00:30</div>
-                    </div>
-
-                    <div class="color-btns">
-                        <button class="btn-color btn-green" onclick="selectBet('GREEN')">Green</button>
-                        <button class="btn-color btn-violet" onclick="selectBet('VIOLET')">Violet</button>
-                        <button class="btn-color btn-red" onclick="selectBet('RED')">Red</button>
-                    </div>
-
-                    <input type="number" id="betAmount" placeholder="Enter Amount (Min ₹10)">
-                    <p id="myBetStatus" style="font-size: 12px; text-align: center; color: #f59e0b; margin-top: 6px; min-height: 18px;"></p>
-                </div>
-
-                <h4 style="margin-top: 12px; font-size: 13px; color: #94a3b8;">Game History</h4>
-                <div class="history-list" id="gameHistory"></div>
+            <div class="timer-box" id="timer">00:30</div>
+            
+            <div class="color-buttons">
+                <button class="btn btn-green" onclick="placeBet('Green')">Green</button>
+                <button class="btn btn-violet" onclick="placeBet('Violet')">Violet</button>
+                <button class="btn btn-red" onclick="placeBet('Red')">Red</button>
             </div>
-
-            <div id="depTab" class="tab-content hidden">
-                <h4 style="text-align: center; color:#10b981;">Min Deposit: ₹110</h4>
-                <div style="text-align: center; margin: 10px 0;">
-                    <!-- Live QR Code Container -->
-                    <img id="userQrDisplay" src="https://via.placeholder.com/150?text=Scan+To+Pay" style="border-radius: 8px; max-width: 160px; height: auto; border: 2px solid #f59e0b;">
-                </div>
-                <input type="number" id="depAmount" placeholder="Amount (Min ₹110)">
-                <input type="text" id="depUTR" placeholder="12-Digit UTR Number" maxlength="12" style="margin-top: 8px;">
-                <button class="btn-main" onclick="submitDeposit()" style="margin-top: 10px; width: 100%;">Submit Deposit</button>
-
-                <h4 style="margin-top: 15px; font-size: 12px; color: #94a3b8;">My Deposit Requests</h4>
-                <div class="history-list" id="myDepositHistory"></div>
-            </div>
-
-            <div id="withTab" class="tab-content hidden">
-                <h4 style="text-align: center; color:#ef4444;">Min Withdrawal: ₹170</h4>
-                <input type="number" id="withAmount" placeholder="Amount (Min ₹170)" style="margin-top: 10px;">
-                <input type="text" id="withUPI" placeholder="Enter UPI ID" style="margin-top: 8px;">
-                <button class="btn-main" onclick="submitWithdrawal()" style="margin-top: 10px; width: 100%;">Request Withdrawal</button>
-
-                <h4 style="margin-top: 15px; font-size: 12px; color: #94a3b8;">My Withdrawal Requests</h4>
-                <div class="history-list" id="myWithdrawHistory"></div>
-            </div>
-
-            <div id="adminTab" class="tab-content hidden">
-                <h3 style="color:#f59e0b; text-align:center; margin-bottom:10px;">👑 Master Admin Panel</h3>
-
-                <!-- Direct QR Code Upload Section -->
-                <div class="admin-box">
-                    <h4 style="color:#10b981; margin-bottom:6px;">📸 Change Deposit Scanner / QR Code</h4>
-                    <p style="font-size:10px; color:#94a3b8; margin-bottom:8px;">Gallery/File Manager se photo select karke upload karein:</p>
-                    <input type="file" id="adminQrInput" accept="image/*" style="padding: 6px; font-size:11px;">
-                    <button onclick="uploadQrCode()" class="btn-main" style="margin-top:8px; width:100%; padding:8px;">Upload New QR Code</button>
-                </div>
-
-                <div class="admin-box">
-                    <h4 style="color:#f59e0b; margin-bottom:6px;">⚙️ Prediction / Result Control</h4>
-                    <label style="font-size:11px; color:#94a3b8; display:block; margin-bottom:4px;">Set Next Winning Color:</label>
-                    <select id="adminNextResult" onchange="updateNextResultMode()">
-                        <option value="AUTO">AUTO (Random Engine)</option>
-                        <option value="GREEN">GREEN (Force Win)</option>
-                        <option value="VIOLET">VIOLET (Force Win 4.5x)</option>
-                        <option value="RED">RED (Force Win)</option>
-                    </select>
-                </div>
-
-                <div class="admin-box">
-                    <h4 style="color:#10b981; margin-bottom:6px;">📊 Current Round Live Bets</h4>
-                    <div class="live-stat" style="color:#10b981;"><span>Green Total:</span> <span id="adminGreenBet">₹0</span></div>
-                    <div class="live-stat" style="color:#8b5cf6;"><span>Violet Total:</span> <span id="adminVioletBet">₹0</span></div>
-                    <div class="live-stat" style="color:#ef4444;"><span>Red Total:</span> <span id="adminRedBet">₹0</span></div>
-                    
-                    <h5 style="margin-top:8px; color:#94a3b8; font-size:11px;">Player Wise Bets:</h5>
-                    <div id="adminLiveBetsList" style="margin-top:4px; max-height:80px; overflow-y:auto; font-size:11px;"></div>
-                </div>
-
-                <h4 style="color:#10b981; margin-top:10px;">📥 Pending Deposits</h4>
-                <div id="adminDepositsList"></div>
-
-                <h4 style="color:#ef4444; margin-top:15px;">📤 Pending Withdrawals</h4>
-                <div id="adminWithdrawalsList"></div>
-
-                <h4 style="color:#f59e0b; margin-top:15px;">👥 Users List & Direct Login</h4>
-                <div id="adminUsersList"></div>
+            
+            <div class="input-group">
+                <input type="number" id="betAmount" placeholder="Enter Amount (Min ₹10)" min="10">
             </div>
         </div>
+    </div>
+
+    <!-- SECRET ADMIN PANEL (HIDDEN) -->
+    <div id="adminPanel" class="admin-modal hidden">
+        <h3>👑 Secret Admin Control</h3>
+        <div id="adminUserList"></div>
+        <button class="btn btn-secondary" onclick="closeAdmin()" style="margin-top: 10px;">Close Admin Panel</button>
     </div>
 </div>
 
 <script>
-    const USERS_KEY = 'MONEY_MAKER_USERS_V4';
-    const DEPOSITS_KEY = 'MONEY_MAKER_DEPOSITS_V4';
-    const WITHDRAWALS_KEY = 'MONEY_MAKER_WITHDRAWALS_V4';
-    const SESSION_KEY = 'MONEY_MAKER_SESSION_V4';
-    const RESULT_MODE_KEY = 'MONEY_MAKER_RESULT_MODE';
-    const QR_CODE_KEY = 'MONEY_MAKER_QR_CODE';
-
-    let isRegisterMode = false;
-    let currentUser = null;
-    let periodId = 2026001;
-    let timeLeft = 30;
-    let currentBet = null;
-    let currentRoundBets = [];
-
+    // --- PERSISTENT SESSION ON PAGE LOAD ---
     window.onload = function() {
-        const session = localStorage.getItem(SESSION_KEY);
-        if (session) {
-            currentUser = JSON.parse(session);
-            showDashboard();
+        const activeUser = localStorage.getItem('mmc_active_session');
+        if (activeUser) {
+            showDashboard(JSON.parse(activeUser));
         }
-        loadQrCode();
-        startGlobalGameLoop();
     };
 
-    function loadQrCode() {
-        const savedQr = localStorage.getItem(QR_CODE_KEY);
-        if(savedQr) {
-            document.getElementById('userQrDisplay').src = savedQr;
-        }
-    }
-
-    function uploadQrCode() {
-        const fileInput = document.getElementById('adminQrInput');
-        if(fileInput.files.length === 0) return alert('Kripya koi Scanner photo select karein!');
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            const base64Image = e.target.result;
-            localStorage.setItem(QR_CODE_KEY, base64Image);
-            document.getElementById('userQrDisplay').src = base64Image;
-            alert('🎉 Naya Scanner/QR Code Upload Ho Gaya!');
-        };
-
-        reader.readAsDataURL(file);
-    }
-
-    function toggleAuthMode() {
-        isRegisterMode = !isRegisterMode;
-        document.getElementById('authTitle').innerText = isRegisterMode ? 'Register New Account' : 'Login Account';
-        document.getElementById('authBtn').innerText = isRegisterMode ? 'Register & Get ₹20' : 'Login';
-        document.getElementById('toggleText').innerText = isRegisterMode ? 'Pehle se account hai? Login Karein' : 'Naya Account Banayein (Register)';
-    }
-
-    function handleAuth() {
-        const mob = document.getElementById('mobileInput').value.trim();
-        const pass = document.getElementById('passwordInput').value.trim();
-
-        if (mob.length !== 10 || isNaN(mob)) return alert('Sahi 10-digit number dalein!');
-        if (!pass || pass.length < 4) return alert('Password minimum 4 characters ka ho!');
-
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-
-        if (isRegisterMode) {
-            if (users[mob]) return alert('Number pehle se registered hai! Login Karein.');
-            
-            const isFirstAccount = Object.keys(users).length === 0;
-
-            users[mob] = {
-                id: 'MM' + Math.floor(1000 + Math.random() * 9000),
-                mobile: mob,
-                password: pass,
-                balance: 20,
-                isAdmin: isFirstAccount
-            };
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            alert('Account ban gaya! Bonus ₹20 credit ho gaya.');
-        } else {
-            if (!users[mob] || users[mob].password !== pass) {
-                return alert('Galat Number ya Password!');
-            }
-        }
-
-        currentUser = users[mob];
-        localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
-        showDashboard();
-    }
-
-    function showDashboard() {
-        document.getElementById('authSection').classList.add('hidden');
-        document.getElementById('dashboardSection').classList.remove('hidden');
+    // --- AUTHENTICATION LOGIC ---
+    function handleRegister() {
+        const phone = document.getElementById('userPhone').value.trim();
+        const pass = document.getElementById('userPass').value.trim();
         
-        document.getElementById('userHeader').innerText = `ID: ${currentUser.id} (${currentUser.mobile})`;
-        updateBalanceUI();
-        renderUserHistories();
-        loadQrCode();
+        if (phone.length !== 10 || !pass) return alert("Kripya 10-digit number aur password sahi se bharein!");
 
-        if(currentUser.isAdmin) {
-            document.getElementById('adminTabBtn').classList.remove('hidden');
-            const savedMode = localStorage.getItem(RESULT_MODE_KEY) || 'AUTO';
-            document.getElementById('adminNextResult').value = savedMode;
-            renderAdminPanel();
+        let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
+        if (users[phone]) return alert("Ye number pehle se registered hai! Direct Login karein.");
+
+        const newUser = { phone: phone, pass: pass, balance: 20.00 };
+        users[phone] = newUser;
+        localStorage.setItem('mmc_users', JSON.stringify(users));
+
+        saveSessionAndLogin(newUser);
+    }
+
+    function handleLogin() {
+        const phone = document.getElementById('userPhone').value.trim();
+        const pass = document.getElementById('userPass').value.trim();
+
+        let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
+        if (users[phone] && users[phone].pass === pass) {
+            saveSessionAndLogin(users[phone]);
+        } else {
+            alert("Galat Mobile Number ya Password!");
         }
     }
 
-    function logout() {
-        localStorage.removeItem(SESSION_KEY);
+    function saveSessionAndLogin(userObj) {
+        localStorage.setItem('mmc_active_session', JSON.stringify(userObj));
+        showDashboard(userObj);
+    }
+
+    function showDashboard(userObj) {
+        document.getElementById('authView').classList.add('hidden');
+        document.getElementById('dashboardView').classList.remove('hidden');
+        document.getElementById('displayUser').innerText = "ID: " + userObj.phone;
+        document.getElementById('displayBalance').innerText = "₹" + parseFloat(userObj.balance).toFixed(2);
+        startTimer();
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('mmc_active_session');
         location.reload();
     }
 
-    function saveUserData() {
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-        users[currentUser.mobile] = currentUser;
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
-        updateBalanceUI();
-    }
-
-    function updateBalanceUI() {
-        document.getElementById('userBalance').innerText = '₹' + currentUser.balance.toFixed(2);
-    }
-
-    function startGlobalGameLoop() {
+    // --- LIGHTWEIGHT TIMER ---
+    let timeLeft = 30;
+    let timerRunning = false;
+    function startTimer() {
+        if(timerRunning) return;
+        timerRunning = true;
         setInterval(() => {
             timeLeft--;
-            const sec = timeLeft < 10 ? '0' + timeLeft : timeLeft;
-            document.getElementById('timerDisplay').innerText = `00:${sec}`;
-
-            if (timeLeft <= 0) {
-                calculateRoundResult();
-                timeLeft = 30;
-                periodId++;
-                document.getElementById('periodDisplay').innerText = periodId;
-                currentBet = null;
-                currentRoundBets = [];
-                updateAdminLiveBetsUI();
-            }
+            if (timeLeft < 0) timeLeft = 30;
+            document.getElementById('timer').innerText = "00:" + (timeLeft < 10 ? "0" + timeLeft : timeLeft);
         }, 1000);
     }
 
-    function selectBet(color) {
-        if(timeLeft <= 5) return alert('Betting locked for this round!');
-        if(currentBet) return alert('Aapne is round mein bet laga di hai!');
+    // --- BETTING LOGIC ---
+    function placeBet(color) {
+        const amount = parseFloat(document.getElementById('betAmount').value);
+        let activeUser = JSON.parse(localStorage.getItem('mmc_active_session'));
 
-        const amt = parseFloat(document.getElementById('betAmount').value);
-        if (isNaN(amt) || amt < 10) return alert('Minimum bet ₹10 hai!');
-        if (amt > currentUser.balance) return alert('Low Balance!');
+        if (!amount || amount < 10) return alert("Minimum Bet Amount ₹10 hai!");
+        if (activeUser.balance < amount) return alert("Aapke paas पर्याप्त balance nahi hai!");
 
-        currentUser.balance -= amt;
-        saveUserData();
+        activeUser.balance -= amount;
+        
+        // Sync active session and DB
+        localStorage.setItem('mmc_active_session', JSON.stringify(activeUser));
+        let users = JSON.parse(localStorage.getItem('mmc_users'));
+        users[activeUser.phone].balance = activeUser.balance;
+        localStorage.setItem('mmc_users', JSON.stringify(users));
 
-        currentBet = { color: color, amount: amt };
-        currentRoundBets.push({ userId: currentUser.id, color: color, amount: amt });
-
-        document.getElementById('myBetStatus').innerText = `Bet Placed: ${color} (₹${amt})`;
-        updateAdminLiveBetsUI();
+        document.getElementById('displayBalance').innerText = "₹" + activeUser.balance.toFixed(2);
+        document.getElementById('betAmount').value = '';
+        alert(color + " par ₹" + amount + " ki bet lag chuki hai!");
     }
 
-    function updateAdminLiveBetsUI() {
-        let green = 0, violet = 0, red = 0;
-        let listHtml = '';
-
-        currentRoundBets.forEach(b => {
-            if (b.color === 'GREEN') green += b.amount;
-            if (b.color === 'VIOLET') violet += b.amount;
-            if (b.color === 'RED') red += b.amount;
-            listHtml += `<div>👤 ${b.userId}: <b style="color:${b.color.toLowerCase()}">${b.color}</b> - ₹${b.amount}</div>`;
-        });
-
-        const gElem = document.getElementById('adminGreenBet');
-        const vElem = document.getElementById('adminVioletBet');
-        const rElem = document.getElementById('adminRedBet');
-        const lElem = document.getElementById('adminLiveBetsList');
-
-        if(gElem) gElem.innerText = '₹' + green;
-        if(vElem) vElem.innerText = '₹' + violet;
-        if(rElem) rElem.innerText = '₹' + red;
-        if(lElem) lElem.innerHTML = listHtml || '<span style="color:#94a3b8;">No bets placed yet.</span>';
-    }
-
-    function updateNextResultMode() {
-        const mode = document.getElementById('adminNextResult').value;
-        localStorage.setItem(RESULT_MODE_KEY, mode);
-    }
-
-    function calculateRoundResult() {
-        const mode = localStorage.getItem(RESULT_MODE_KEY) || 'AUTO';
-        let winColor = 'RED';
-
-        if (mode === 'AUTO') {
-            const colors = ['RED', 'GREEN', 'RED', 'GREEN', 'VIOLET'];
-            winColor = colors[Math.floor(Math.random() * colors.length)];
-        } else {
-            winColor = mode;
-            localStorage.setItem(RESULT_MODE_KEY, 'AUTO');
-            if(currentUser && currentUser.isAdmin) {
-                const sel = document.getElementById('adminNextResult');
-                if(sel) sel.value = 'AUTO';
+    // --- SECRET ADMIN SYSTEM ---
+    let clickCount = 0;
+    function triggerSecretAdmin() {
+        clickCount++;
+        if (clickCount >= 4) {
+            clickCount = 0;
+            const adminPass = prompt("Enter Admin Secret Key:");
+            if (adminPass === "admin123") { // Admin password yahan change kar sakte hain
+                openAdmin();
+            } else if (adminPass !== null) {
+                alert("Galat Admin Key!");
             }
         }
+    }
 
-        if (currentBet) {
-            if (currentBet.color === winColor) {
-                let multiplier = winColor === 'VIOLET' ? 4.5 : 2;
-                let winAmt = currentBet.amount * multiplier;
-                currentUser.balance += winAmt;
-                saveUserData();
-                document.getElementById('myBetStatus').innerText = `🎉 WON ₹${winAmt}! Winner: ${winColor}`;
-            } else {
-                document.getElementById('myBetStatus').innerText = `❌ LOST! Winner: ${winColor}`;
-            }
-        } else {
-            document.getElementById('myBetStatus').innerText = `Round Ended! Winner: ${winColor}`;
+    function openAdmin() {
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadAdminUsers();
+    }
+
+    function closeAdmin() {
+        document.getElementById('adminPanel').classList.add('hidden');
+    }
+
+    function loadAdminUsers() {
+        const container = document.getElementById('adminUserList');
+        container.innerHTML = '';
+        let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
+
+        if (Object.keys(users).length === 0) {
+            container.innerHTML = "<p style='text-align:center;'>Koi user found nahi hua.</p>";
+            return;
         }
 
-        const historyElem = document.getElementById('gameHistory');
-        const colorHex = winColor === 'RED' ? '#ef4444' : winColor === 'GREEN' ? '#10b981' : '#8b5cf6';
-        const row = document.createElement('div');
-        row.className = 'history-row';
-        row.innerHTML = `<span>#${periodId}</span> <span style="color:${colorHex}; font-weight:bold;">${winColor}</span>`;
-        historyElem.prepend(row);
-    }
-
-    function submitDeposit() {
-        const amt = parseFloat(document.getElementById('depAmount').value);
-        const utr = document.getElementById('depUTR').value.trim();
-        if(amt < 110 || isNaN(amt)) return alert('Minimum deposit ₹110!');
-        if(utr.length !== 12) return alert('12-Digit UTR number daalein!');
-
-        let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
-        deposits.push({ id: 'DEP' + Date.now(), userMobile: currentUser.mobile, userId: currentUser.id, amount: amt, utr: utr, status: 'PENDING' });
-        localStorage.setItem(DEPOSITS_KEY, JSON.stringify(deposits));
-
-        alert('Deposit Request Submitted!');
-        document.getElementById('depAmount').value = '';
-        document.getElementById('depUTR').value = '';
-        renderUserHistories();
-        if(currentUser.isAdmin) renderAdminPanel();
-    }
-
-    function submitWithdrawal() {
-        const amt = parseFloat(document.getElementById('withAmount').value);
-        const upi = document.getElementById('withUPI').value.trim();
-        if(amt < 170 || isNaN(amt)) return alert('Minimum withdrawal ₹170!');
-        if(!upi) return alert('UPI ID daalein!');
-        if(amt > currentUser.balance) return alert('Low Balance!');
-
-        currentUser.balance -= amt;
-        saveUserData();
-
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || '[]');
-        withdrawals.push({ id: 'WITH' + Date.now(), userMobile: currentUser.mobile, userId: currentUser.id, amount: amt, upi: upi, status: 'PENDING' });
-        localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
-
-        alert('Withdrawal Request Submitted!');
-        document.getElementById('withAmount').value = '';
-        document.getElementById('withUPI').value = '';
-        renderUserHistories();
-        if(currentUser.isAdmin) renderAdminPanel();
-    }
-
-    function renderUserHistories() {
-        let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
-        let myDeps = deposits.filter(d => d.userMobile === currentUser.mobile);
-        document.getElementById('myDepositHistory').innerHTML = myDeps.map(d => `
-            <div class="history-row"><span>₹${d.amount} (UTR: ${d.utr})</span><span class="status-tag status-${d.status}">${d.status}</span></div>
-        `).join('') || '<div style="color:#94a3b8; font-size:11px;">No deposits found</div>';
-
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || '[]');
-        let myWiths = withdrawals.filter(w => w.userMobile === currentUser.mobile);
-        document.getElementById('myWithdrawHistory').innerHTML = myWiths.map(w => `
-            <div class="history-row"><span>₹${w.amount} (${w.upi})</span><span class="status-tag status-${w.status}">${w.status}</span></div>
-        `).join('') || '<div style="color:#94a3b8; font-size:11px;">No withdrawals found</div>';
-    }
-
-    function renderAdminPanel() {
-        let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
-        let pendingDeps = deposits.filter(d => d.status === 'PENDING');
-        document.getElementById('adminDepositsList').innerHTML = pendingDeps.map(d => `
-            <div class="req-card">
-                <div><b>User:</b> ${d.userId} (${d.userMobile})</div>
-                <div><b>Amount:</b> ₹${d.amount} | <b>UTR:</b> ${d.utr}</div>
-                <div class="action-btns">
-                    <button class="btn-approve" onclick="approveDeposit('${d.id}')">Approve</button>
-                    <button class="btn-reject" onclick="rejectDeposit('${d.id}')">Reject</button>
+        for (let phone in users) {
+            const u = users[phone];
+            const div = document.createElement('div');
+            div.className = 'user-row';
+            div.innerHTML = `
+                <div>
+                    <strong>${u.phone}</strong><br>
+                    <small>Pass: ${u.pass}</small>
                 </div>
-            </div>
-        `).join('') || '<div style="color:#94a3b8; font-size:11px;">No pending deposits</div>';
-
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || '[]');
-        let pendingWiths = withdrawals.filter(w => w.status === 'PENDING');
-        document.getElementById('adminWithdrawalsList').innerHTML = pendingWiths.map(w => `
-            <div class="req-card">
-                <div><b>User:</b> ${w.userId} (${w.userMobile})</div>
-                <div><b>Amount:</b> ₹${w.amount} | <b>UPI:</b> ${w.upi}</div>
-                <div class="action-btns">
-                    <button class="btn-approve" onclick="approveWithdrawal('${w.id}')">Approve</button>
-                    <button class="btn-reject" onclick="rejectWithdrawal('${w.id}')">Reject & Refund</button>
-                </div>
-            </div>
-        `).join('') || '<div style="color:#94a3b8; font-size:11px;">No pending withdrawals</div>';
-
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-        let userHtml = '';
-        for(let mob in users) {
-            let u = users[mob];
-            userHtml += `
-                <div class="req-card">
-                    <div><b>ID:</b> ${u.id} | <b>Mob:</b> ${u.mobile}</div>
-                    <div><b>Balance:</b> ₹${u.balance.toFixed(2)}</div>
-                    <button onclick="adminLoginAsUser('${u.mobile}')" style="margin-top:6px; background:#10b981; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer;">🔑 Direct Login</button>
+                <div>
+                    ₹<input type="number" id="adm_bal_${u.phone}" value="${u.balance}">
+                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; width: auto;" onclick="saveAdminBal('${u.phone}')">Save</button>
                 </div>
             `;
-        }
-        document.getElementById('adminUsersList').innerHTML = userHtml;
-    }
-
-    function approveDeposit(depId) {
-        let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-        let dep = deposits.find(d => d.id === depId);
-        if(dep && dep.status === 'PENDING') {
-            dep.status = 'APPROVED';
-            if(users[dep.userMobile]) users[dep.userMobile].balance += dep.amount;
-            if(currentUser.mobile === dep.userMobile) currentUser.balance += dep.amount;
-            localStorage.setItem(DEPOSITS_KEY, JSON.stringify(deposits));
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            alert('Deposit Approved!');
-            renderAdminPanel();
-            updateBalanceUI();
+            container.appendChild(div);
         }
     }
 
-    function rejectDeposit(depId) {
-        let deposits = JSON.parse(localStorage.getItem(DEPOSITS_KEY) || '[]');
-        let dep = deposits.find(d => d.id === depId);
-        if(dep) {
-            dep.status = 'REJECTED';
-            localStorage.setItem(DEPOSITS_KEY, JSON.stringify(deposits));
-            renderAdminPanel();
-        }
-    }
+    function saveAdminBal(phone) {
+        const newBal = parseFloat(document.getElementById('adm_bal_' + phone).value);
+        let users = JSON.parse(localStorage.getItem('mmc_users'));
+        
+        if (users[phone]) {
+            users[phone].balance = newBal;
+            localStorage.setItem('mmc_users', JSON.stringify(users));
 
-    function approveWithdrawal(withid) {
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || '[]');
-        let withItem = withdrawals.find(w => w.id === withid);
-        if(withItem) {
-            withItem.status = 'APPROVED';
-            localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
-            alert('Withdrawal Approved!');
-            renderAdminPanel();
+            // Sync if this user is currently active
+            let active = JSON.parse(localStorage.getItem('mmc_active_session'));
+            if (active && active.phone === phone) {
+                active.balance = newBal;
+                localStorage.setItem('mmc_active_session', JSON.stringify(active));
+                document.getElementById('displayBalance').innerText = "₹" + newBal.toFixed(2);
+            }
+            alert("ID " + phone + " ka balance ₹" + newBal + " update ho gaya!");
+            loadAdminUsers();
         }
-    }
-
-    function rejectWithdrawal(withid) {
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY) || '[]');
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-        let withItem = withdrawals.find(w => w.id === withid);
-        if(withItem && withItem.status === 'PENDING') {
-            withItem.status = 'REJECTED';
-            if(users[withItem.userMobile]) users[withItem.userMobile].balance += withItem.amount;
-            if(currentUser.mobile === withItem.userMobile) currentUser.balance += withItem.amount;
-            localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            alert('Withdrawal Rejected & Refunded!');
-            renderAdminPanel();
-            updateBalanceUI();
-        }
-    }
-
-    function adminLoginAsUser(targetMobile) {
-        let users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-        if(users[targetMobile]) {
-            currentUser = users[targetMobile];
-            localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
-            location.reload();
-        }
-    }
-
-    function switchTab(tabId, btn) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.remove('hidden');
-        btn.classList.add('active');
     }
 </script>
 </body>
