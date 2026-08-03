@@ -8,16 +8,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0f172a; color: #fff; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 15px; }
         
-        /* Main Container - Expanded Size */
         .app-container { width: 100%; max-width: 520px; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #334155; margin-top: 10px; }
         
         /* Auth UI */
         .auth-card { display: flex; flex-direction: column; gap: 15px; text-align: center; }
         .auth-card h2 { color: #f59e0b; font-size: 28px; cursor: pointer; user-select: none; }
-        .input-group input { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 16px; outline: none; margin-bottom: 10px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 15px; outline: none; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.2s; }
         .btn-primary { background: #f59e0b; color: #000; }
-        .btn-secondary { background: #334155; color: #fff; margin-top: 8px; }
+        .btn-secondary { background: #334155; color: #fff; margin-top: 6px; }
+        .btn-success { background: #10b981; color: #fff; }
+        .btn-danger { background: #ef4444; color: #fff; }
         
         /* Dashboard UI */
         .header-card { background: #0f172a; border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid #334155; }
@@ -28,18 +29,20 @@
         
         /* Game Section */
         .game-card { background: #0f172a; border-radius: 12px; padding: 20px; border: 1px solid #334155; text-align: center; }
-        .period-box { display: flex; justify-content: space-between; font-size: 16px; color: #94a3b8; margin-bottom: 15px; }
-        .timer-box { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 26px; font-weight: bold; margin: 15px 0; color: #ef4444; border: 1px solid #334155; }
-        .color-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 18px; }
-        .btn-green { background: #10b981; color: #fff; font-size: 18px; padding: 16px; }
-        .btn-violet { background: #8b5cf6; color: #fff; font-size: 18px; padding: 16px; }
-        .btn-red { background: #ef4444; color: #fff; font-size: 18px; padding: 16px; }
+        .period-box { display: flex; justify-content: space-between; font-size: 15px; color: #94a3b8; margin-bottom: 12px; }
+        .timer-box { background: #1e293b; padding: 10px; border-radius: 8px; font-size: 26px; font-weight: bold; margin: 12px 0; color: #ef4444; border: 1px solid #334155; }
+        .color-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn-green { background: #10b981; color: #fff; padding: 14px; }
+        .btn-violet { background: #8b5cf6; color: #fff; padding: 14px; }
+        .btn-red { background: #ef4444; color: #fff; padding: 14px; }
         
-        /* Admin Modal */
-        .admin-modal { background: #0f172a; padding: 20px; border-radius: 12px; border: 2px solid #ef4444; margin-top: 20px; }
-        .admin-modal h3 { color: #ef4444; margin-bottom: 15px; text-align: center; }
-        .user-row { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
-        .user-row input { width: 80px; padding: 6px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
+        /* Modals & Admin */
+        .modal-box { background: #0f172a; padding: 18px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 15px; }
+        .admin-modal { background: #0f172a; padding: 18px; border-radius: 12px; border: 2px solid #f59e0b; margin-top: 20px; }
+        .admin-section { border-bottom: 1px dashed #334155; padding-bottom: 12px; margin-bottom: 12px; }
+        .admin-section h4 { color: #f59e0b; margin-bottom: 8px; font-size: 14px; }
+        .user-row { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; }
+        .user-row input { width: 70px; padding: 4px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
         
         .hidden { display: none !important; }
     </style>
@@ -65,8 +68,8 @@
             <div class="user-info">
                 <span class="brand-title" onclick="triggerSecretAdmin()">🎰 Money Maker</span>
                 <div>
-                    <span id="displayUser" style="font-size: 14px; color: #94a3b8; margin-right: 8px;">ID: --</span>
-                    <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 12px;" onclick="handleLogout()">Logout</button>
+                    <span id="displayUser" style="font-size: 13px; color: #94a3b8; margin-right: 8px;">ID: --</span>
+                    <button class="btn btn-secondary" style="width: auto; padding: 4px 10px; font-size: 12px;" onclick="handleLogout()">Logout</button>
                 </div>
             </div>
             <div style="font-size: 12px; color: #94a3b8;">Total Balance</div>
@@ -74,8 +77,33 @@
         </div>
 
         <div class="actions-grid">
-            <button class="btn btn-secondary" onclick="alert('Deposit ke liye Admin ko DM karein!')">Deposit</button>
-            <button class="btn btn-secondary" onclick="alert('Withdrawal ke liye Admin ko DM karein!')">Withdraw</button>
+            <button class="btn btn-success" onclick="openDepositModal()">Deposit</button>
+            <button class="btn btn-danger" onclick="openWithdrawModal()">Withdraw</button>
+        </div>
+
+        <!-- DEPOSIT MODAL -->
+        <div id="depositModal" class="modal-box hidden">
+            <h4 style="color:#10b981; margin-bottom:10px;">Deposit Money</h4>
+            <div style="text-align: center; margin-bottom:10px;">
+                <img id="qrDisplay" src="https://via.placeholder.com/200x200?text=Scan+QR+Code" alt="QR Code" style="width:180px; height:180px; border-radius:8px; border:2px solid #fff;">
+            </div>
+            <div class="input-group">
+                <input type="number" id="depAmount" placeholder="Amount (Min ₹100)">
+                <input type="text" id="depUtr" placeholder="UTR / Transaction Reference No.">
+            </div>
+            <button class="btn btn-success" onclick="submitDeposit()">Submit Deposit Request</button>
+            <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+        </div>
+
+        <!-- WITHDRAW MODAL -->
+        <div id="withdrawModal" class="modal-box hidden">
+            <h4 style="color:#ef4444; margin-bottom:10px;">Withdraw Money</h4>
+            <div class="input-group">
+                <input type="number" id="wdAmount" placeholder="Amount (Min ₹110)">
+                <input type="text" id="wdUpi" placeholder="Enter UPI ID (e.g. name@upi)">
+            </div>
+            <button class="btn btn-danger" onclick="submitWithdraw()">Request Withdrawal</button>
+            <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
         </div>
 
         <div class="game-card">
@@ -97,16 +125,60 @@
         </div>
     </div>
 
-    <!-- SECRET ADMIN PANEL (HIDDEN) -->
+    <!-- MASTER SECRET ADMIN PANEL -->
     <div id="adminPanel" class="admin-modal hidden">
-        <h3>👑 Secret Admin Control</h3>
-        <div id="adminUserList"></div>
-        <button class="btn btn-secondary" onclick="closeAdmin()" style="margin-top: 10px;">Close Admin Panel</button>
+        <h3 style="color:#f59e0b; text-align:center; margin-bottom:12px;">👑 Master Admin Panel</h3>
+        
+        <!-- 1. Change QR Code -->
+        <div class="admin-section">
+            <h4>📸 Change Deposit Scanner / QR Code</h4>
+            <input type="file" id="qrFileInput" accept="image/*" style="font-size:12px; margin-bottom:5px;">
+            <button class="btn btn-primary" style="padding:6px; font-size:12px;" onclick="uploadNewQR()">Upload New QR Code</button>
+        </div>
+
+        <!-- 2. Winning Color Control -->
+        <div class="admin-section">
+            <h4>⚙️ Prediction / Result Control</h4>
+            <div class="input-group" style="margin-bottom:0;">
+                <select id="forcedResult">
+                    <option value="AUTO">AUTO (Random Engine)</option>
+                    <option value="Green">Force GREEN Win</option>
+                    <option value="Violet">Force VIOLET Win</option>
+                    <option value="Red">Force RED Win</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 3. Current Bets -->
+        <div class="admin-section">
+            <h4>📊 Current Round Live Bets</h4>
+            <p style="font-size:12px; color:#10b981;">Green Total: ₹<span id="totGreen">0</span></p>
+            <p style="font-size:12px; color:#8b5cf6;">Violet Total: ₹<span id="totViolet">0</span></p>
+            <p style="font-size:12px; color:#ef4444;">Red Total: ₹<span id="totRed">0</span></p>
+        </div>
+
+        <!-- 4. Deposit & Withdraw Requests -->
+        <div class="admin-section">
+            <h4>💳 Pending Deposits & Withdrawals</h4>
+            <div id="adminRequestsList" style="font-size:12px;"></div>
+        </div>
+
+        <!-- 5. User Balance Manager -->
+        <div class="admin-section">
+            <h4>👥 Manage Users & Balance</h4>
+            <div id="adminUserList"></div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="closeAdmin()">Close Admin Panel</button>
     </div>
 </div>
 
 <script>
-    // --- PERSISTENT SESSION ON PAGE LOAD ---
+    // System Data Initialization
+    if(!localStorage.getItem('mmc_qr')) localStorage.setItem('mmc_qr', 'https://via.placeholder.com/200x200?text=Scan+QR+Code');
+    if(!localStorage.getItem('mmc_bets')) localStorage.setItem('mmc_bets', JSON.stringify({Green:0, Violet:0, Red:0}));
+    if(!localStorage.getItem('mmc_requests')) localStorage.setItem('mmc_requests', JSON.stringify([]));
+
     window.onload = function() {
         const activeUser = localStorage.getItem('mmc_active_session');
         if (activeUser) {
@@ -114,27 +186,23 @@
         }
     };
 
-    // --- AUTHENTICATION LOGIC ---
     function handleRegister() {
         const phone = document.getElementById('userPhone').value.trim();
         const pass = document.getElementById('userPass').value.trim();
-        
         if (phone.length !== 10 || !pass) return alert("Kripya 10-digit number aur password sahi se bharein!");
 
         let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
-        if (users[phone]) return alert("Ye number pehle se registered hai! Direct Login karein.");
+        if (users[phone]) return alert("Ye number pehle se registered hai!");
 
         const newUser = { phone: phone, pass: pass, balance: 20.00 };
         users[phone] = newUser;
         localStorage.setItem('mmc_users', JSON.stringify(users));
-
         saveSessionAndLogin(newUser);
     }
 
     function handleLogin() {
         const phone = document.getElementById('userPhone').value.trim();
         const pass = document.getElementById('userPass').value.trim();
-
         let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
         if (users[phone] && users[phone].pass === pass) {
             saveSessionAndLogin(users[phone]);
@@ -153,6 +221,7 @@
         document.getElementById('dashboardView').classList.remove('hidden');
         document.getElementById('displayUser').innerText = "ID: " + userObj.phone;
         document.getElementById('displayBalance').innerText = "₹" + parseFloat(userObj.balance).toFixed(2);
+        document.getElementById('qrDisplay').src = localStorage.getItem('mmc_qr');
         startTimer();
     }
 
@@ -161,7 +230,47 @@
         location.reload();
     }
 
-    // --- LIGHTWEIGHT TIMER ---
+    // Modal Control
+    function openDepositModal() { closeModals(); document.getElementById('depositModal').classList.remove('hidden'); }
+    function openWithdrawModal() { closeModals(); document.getElementById('withdrawModal').classList.remove('hidden'); }
+    function closeModals() { 
+        document.getElementById('depositModal').classList.add('hidden'); 
+        document.getElementById('withdrawModal').classList.add('hidden'); 
+    }
+
+    // Deposit / Withdraw Requests
+    function submitDeposit() {
+        const amt = parseFloat(document.getElementById('depAmount').value);
+        const utr = document.getElementById('depUtr').value.trim();
+        const user = JSON.parse(localStorage.getItem('mmc_active_session'));
+        if(!amt || amt < 100 || !utr) return alert("Min ₹100 deposit aur valid UTR daalein!");
+
+        let reqs = JSON.parse(localStorage.getItem('mmc_requests'));
+        reqs.push({ id: Date.now(), type: 'DEPOSIT', phone: user.phone, amount: amt, info: utr, status: 'PENDING' });
+        localStorage.setItem('mmc_requests', JSON.stringify(reqs));
+        alert("Deposit request submit ho gayi! Admin ke approval ke baad balance add ho jayega.");
+        closeModals();
+    }
+
+    function submitWithdraw() {
+        const amt = parseFloat(document.getElementById('wdAmount').value);
+        const upi = document.getElementById('wdUpi').value.trim();
+        let user = JSON.parse(localStorage.getItem('mmc_active_session'));
+        if(!amt || amt < 110 || !upi) return alert("Min ₹110 withdrawal aur valid UPI ID daalein!");
+        if(user.balance < amt) return alert("Aapke paas paryapt balance nahi hai!");
+
+        // Deduct balance temporarily
+        user.balance -= amt;
+        updateUserBalanceLocal(user.phone, user.balance);
+
+        let reqs = JSON.parse(localStorage.getItem('mmc_requests'));
+        reqs.push({ id: Date.now(), type: 'WITHDRAW', phone: user.phone, amount: amt, info: upi, status: 'PENDING' });
+        localStorage.setItem('mmc_requests', JSON.stringify(reqs));
+        alert("Withdrawal request submit ho gayi!");
+        closeModals();
+    }
+
+    // Timer Logic
     let timeLeft = 30;
     let timerRunning = false;
     function startTimer() {
@@ -169,66 +278,104 @@
         timerRunning = true;
         setInterval(() => {
             timeLeft--;
-            if (timeLeft < 0) timeLeft = 30;
+            if (timeLeft < 0) {
+                timeLeft = 30;
+                resetBets();
+            }
             document.getElementById('timer').innerText = "00:" + (timeLeft < 10 ? "0" + timeLeft : timeLeft);
         }, 1000);
     }
 
-    // --- BETTING LOGIC ---
     function placeBet(color) {
         const amount = parseFloat(document.getElementById('betAmount').value);
         let activeUser = JSON.parse(localStorage.getItem('mmc_active_session'));
-
-        if (!amount || amount < 10) return alert("Minimum Bet Amount ₹10 hai!");
-        if (activeUser.balance < amount) return alert("Aapke paas पर्याप्त balance nahi hai!");
+        if (!amount || amount < 10) return alert("Minimum Bet ₹10 hai!");
+        if (activeUser.balance < amount) return alert("Balance kam hai!");
 
         activeUser.balance -= amount;
-        
-        // Sync active session and DB
-        localStorage.setItem('mmc_active_session', JSON.stringify(activeUser));
-        let users = JSON.parse(localStorage.getItem('mmc_users'));
-        users[activeUser.phone].balance = activeUser.balance;
-        localStorage.setItem('mmc_users', JSON.stringify(users));
+        updateUserBalanceLocal(activeUser.phone, activeUser.balance);
 
-        document.getElementById('displayBalance').innerText = "₹" + activeUser.balance.toFixed(2);
+        let bets = JSON.parse(localStorage.getItem('mmc_bets'));
+        bets[color] += amount;
+        localStorage.setItem('mmc_bets', JSON.stringify(bets));
+
         document.getElementById('betAmount').value = '';
-        alert(color + " par ₹" + amount + " ki bet lag chuki hai!");
+        alert(color + " par ₹" + amount + " bet lag gayi!");
     }
 
-    // --- SECRET ADMIN SYSTEM ---
+    function resetBets() {
+        localStorage.setItem('mmc_bets', JSON.stringify({Green:0, Violet:0, Red:0}));
+    }
+
+    function updateUserBalanceLocal(phone, newBal) {
+        let users = JSON.parse(localStorage.getItem('mmc_users'));
+        if(users[phone]) {
+            users[phone].balance = newBal;
+            localStorage.setItem('mmc_users', JSON.stringify(users));
+        }
+        let active = JSON.parse(localStorage.getItem('mmc_active_session'));
+        if(active && active.phone === phone) {
+            active.balance = newBal;
+            localStorage.setItem('mmc_active_session', JSON.stringify(active));
+            document.getElementById('displayBalance').innerText = "₹" + newBal.toFixed(2);
+        }
+    }
+
+    // Secret Admin (4 Clicks)
     let clickCount = 0;
     function triggerSecretAdmin() {
         clickCount++;
         if (clickCount >= 4) {
             clickCount = 0;
             const adminPass = prompt("Enter Admin Secret Key:");
-            if (adminPass === "admin123") { // Admin password yahan change kar sakte hain
-                openAdmin();
-            } else if (adminPass !== null) {
-                alert("Galat Admin Key!");
-            }
+            if (adminPass === "admin123") openAdmin();
+            else if (adminPass !== null) alert("Galat Key!");
         }
     }
 
     function openAdmin() {
         document.getElementById('adminPanel').classList.remove('hidden');
-        loadAdminUsers();
+        renderAdminData();
     }
 
-    function closeAdmin() {
-        document.getElementById('adminPanel').classList.add('hidden');
-    }
+    function closeAdmin() { document.getElementById('adminPanel').classList.add('hidden'); }
 
-    function loadAdminUsers() {
-        const container = document.getElementById('adminUserList');
-        container.innerHTML = '';
-        let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
+    function renderAdminData() {
+        // Live bets
+        let bets = JSON.parse(localStorage.getItem('mmc_bets'));
+        document.getElementById('totGreen').innerText = bets.Green;
+        document.getElementById('totViolet').innerText = bets.Violet;
+        document.getElementById('totRed').innerText = bets.Red;
 
-        if (Object.keys(users).length === 0) {
-            container.innerHTML = "<p style='text-align:center;'>Koi user found nahi hua.</p>";
-            return;
+        // Pending Requests
+        const reqContainer = document.getElementById('adminRequestsList');
+        reqContainer.innerHTML = '';
+        let reqs = JSON.parse(localStorage.getItem('mmc_requests'));
+        let pending = reqs.filter(r => r.status === 'PENDING');
+
+        if(pending.length === 0) reqContainer.innerHTML = "<p>Koi pending request nahi hai.</p>";
+        else {
+            pending.forEach(r => {
+                const d = document.createElement('div');
+                d.className = 'user-row';
+                d.innerHTML = `
+                    <div>
+                        <strong>${r.type}</strong> - ₹${r.amount}<br>
+                        <small>User: ${r.phone} | Info: ${r.info}</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" style="padding:2px 6px; font-size:11px; width:auto;" onclick="approveReq(${r.id})">Approve</button>
+                        <button class="btn btn-danger" style="padding:2px 6px; font-size:11px; width:auto;" onclick="rejectReq(${r.id})">Reject</button>
+                    </div>
+                `;
+                reqContainer.appendChild(d);
+            });
         }
 
+        // Users
+        const userContainer = document.getElementById('adminUserList');
+        userContainer.innerHTML = '';
+        let users = JSON.parse(localStorage.getItem('mmc_users') || '{}');
         for (let phone in users) {
             const u = users[phone];
             const div = document.createElement('div');
@@ -240,31 +387,64 @@
                 </div>
                 <div>
                     ₹<input type="number" id="adm_bal_${u.phone}" value="${u.balance}">
-                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 12px; width: auto;" onclick="saveAdminBal('${u.phone}')">Save</button>
+                    <button class="btn btn-primary" style="padding: 2px 6px; font-size: 11px; width: auto;" onclick="saveAdminBal('${u.phone}')">Save</button>
                 </div>
             `;
-            container.appendChild(div);
+            userContainer.appendChild(div);
+        }
+    }
+
+    function uploadNewQR() {
+        const file = document.getElementById('qrFileInput').files[0];
+        if(!file) return alert("Pehle koi photo select karein!");
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            localStorage.setItem('mmc_qr', e.target.result);
+            document.getElementById('qrDisplay').src = e.target.result;
+            alert("Naya QR Code Update ho gaya!");
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function approveReq(id) {
+        let reqs = JSON.parse(localStorage.getItem('mmc_requests'));
+        let r = reqs.find(x => x.id === id);
+        if(r) {
+            r.status = 'APPROVED';
+            if(r.type === 'DEPOSIT') {
+                let users = JSON.parse(localStorage.getItem('mmc_users'));
+                users[r.phone].balance += r.amount;
+                localStorage.setItem('mmc_users', JSON.stringify(users));
+                updateUserBalanceLocal(r.phone, users[r.phone].balance);
+            }
+            localStorage.setItem('mmc_requests', JSON.stringify(reqs));
+            alert("Request Approve Ho Gayi!");
+            renderAdminData();
+        }
+    }
+
+    function rejectReq(id) {
+        let reqs = JSON.parse(localStorage.getItem('mmc_requests'));
+        let r = reqs.find(x => x.id === id);
+        if(r) {
+            r.status = 'REJECTED';
+            if(r.type === 'WITHDRAW') {
+                let users = JSON.parse(localStorage.getItem('mmc_users'));
+                users[r.phone].balance += r.amount; // Refund
+                localStorage.setItem('mmc_users', JSON.stringify(users));
+                updateUserBalanceLocal(r.phone, users[r.phone].balance);
+            }
+            localStorage.setItem('mmc_requests', JSON.stringify(reqs));
+            alert("Request Reject Ho Gayi!");
+            renderAdminData();
         }
     }
 
     function saveAdminBal(phone) {
         const newBal = parseFloat(document.getElementById('adm_bal_' + phone).value);
-        let users = JSON.parse(localStorage.getItem('mmc_users'));
-        
-        if (users[phone]) {
-            users[phone].balance = newBal;
-            localStorage.setItem('mmc_users', JSON.stringify(users));
-
-            // Sync if this user is currently active
-            let active = JSON.parse(localStorage.getItem('mmc_active_session'));
-            if (active && active.phone === phone) {
-                active.balance = newBal;
-                localStorage.setItem('mmc_active_session', JSON.stringify(active));
-                document.getElementById('displayBalance').innerText = "₹" + newBal.toFixed(2);
-            }
-            alert("ID " + phone + " ka balance ₹" + newBal + " update ho gaya!");
-            loadAdminUsers();
-        }
+        updateUserBalanceLocal(phone, newBal);
+        alert("ID " + phone + " ka balance update ho gaya!");
+        renderAdminData();
     }
 </script>
 </body>
